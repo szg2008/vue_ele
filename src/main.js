@@ -2,6 +2,7 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import VueResource from 'vue-resource'
 import App from './App'
 
 import goods from './components/goods/goods'
@@ -10,7 +11,9 @@ import seller from './components/seller/seller'
 
 import './common/stylus/index.styl'
 
+//注册vue插件
 Vue.use(VueRouter)
+Vue.use(VueResource)
 
 //路由的使用
 
