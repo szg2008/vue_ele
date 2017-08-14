@@ -38,7 +38,6 @@ export default {
             res = res.body
             if(res.errno == ERR_NO){
                 this.seller = res.data
-                console.log(this.seller)
             }
         })
     },
