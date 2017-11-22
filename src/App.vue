@@ -42,7 +42,7 @@ export default {
         })
     },
     components: {
-        'v-header':Header
+        'v-header':Header//组件注册
     }
 
 }

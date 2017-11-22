@@ -45,5 +45,5 @@ let router = new VueRouter({
 new Vue({
     el:'#app',
     router,
-    render:h=>h(App)
+    render:h=>h(App)//h是作为createElement的别名，绑定节点渲染App组件
 })

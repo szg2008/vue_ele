@@ -72,11 +72,7 @@
 <script>
     import star from '../star/star'
     export default {
-        props:{
-            seller:{
-                type:Object
-            }
-        },
+        props:['seller'],//子组件使用父组件的属性，通过props属性进行注册
         data(){
             return {
                 detailShow:false
