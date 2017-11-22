@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-header v-bind:seller="seller"></v-header>
-    <div class="tab border-1px">
+    <div class="tab">
         <div class="tab-item">
             <router-link to="/goods">
                 商品
@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import Header from './components/header/header.vue'
+import Header from './components/header/header'
 const ERR_NO = 0
 export default {
     data(){
@@ -42,7 +42,7 @@ export default {
         })
     },
     components: {
-        'v-header':Header//组件注册
+        'v-header':Header
     }
 
 }
