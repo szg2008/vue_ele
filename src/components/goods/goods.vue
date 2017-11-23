@@ -3,7 +3,7 @@
         <div class="menu-wrapper">
             <ul>
                 <li v-for="item in goods" class="menu-item">
-                    <span class="text border-1px">
+                    <span class="text">
                         <span v-show="item.type > 0" class="icon" :class="classMap[item.type]"></span>
                         {{item.name}}
                     </span>
@@ -15,7 +15,7 @@
                 <li v-for="item in goods" class="food-list">
                     <h1 class="title">{{item.name}}</h1>
                     <ul>
-                        <li v-for="food in item.foods" class="food-item border-1px">
+                        <li v-for="food in item.foods" class="food-item">
                             <div class="icon">
                                 <img width="57" height="57" :src="food.icon" alt="">
                             </div>
