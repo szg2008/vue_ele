@@ -15,7 +15,6 @@
                 <div v-if="seller.supports" class="support">
                     <span class="icon" :class="classMap[seller.supports[0].type]"></span>
                     <span class="text">{{seller.supports[0].description}}</span>
-
                 </div>
             </div>
             <div class="support-content" v-if="seller.supports" @click="showDetail()">
@@ -72,7 +71,12 @@
 <script>
     import star from '../star/star'
     export default {
-        props:['seller'],//子组件使用父组件的属性，通过props属性进行注册
+        props:{
+            seller:{
+                type:Object,
+                default:{}
+            }
+        },//子组件使用父组件的属性，通过props属性进行注册
         data(){
             return {
                 detailShow:false
@@ -99,11 +103,11 @@
     .header
         position:relative
         color:#fff
-        background:rgba(7,17,27,0.5)
+        background-color:rgba(7,17,27,0.5)
         .content-wrapper
             position:relative
             padding:24px 12px 18px 24px
-            font-size:0
+            font-size:0//消除空白字符,子元素需要单独设置字体
             .avatar
                 display:inline-block
                 vertical-align:top
@@ -117,7 +121,7 @@
                     margin:2px 0 8px 0
                     .brand
                         display:inline-block
-                        vertical-align:middle
+                        vertical-align:top
                         width:30px
                         height:18px
                         bg-image('brand')
@@ -126,6 +130,7 @@
                     .name
                         margin-left:6px
                         font-size:16px
+                        line-height:18px
                         font-weight:bold
                 .description
                     margin-bottom:10px
@@ -173,6 +178,7 @@
             white-space:nowrap
             overflow:hidden
             text-overflow:ellipsis
+            background-color:rgba(7,17,27,0.3)
             .bulletin-title
                 display:inline-block
                 width:22px
@@ -180,9 +186,12 @@
                 bg-image('bulletin')
                 background-size:22px 12px
                 background-repeat:no-repeat
+                vertical-align:top
+                margin-top:8px
             .bulletin-text
                 margin:0 4px
                 font-size:10px
+                vertical-align:top
         .background
             position:absolute
             top:0
