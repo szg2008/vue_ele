@@ -1,8 +1,8 @@
 <template>
     <div class="goods">
-        <div class="menu-wrapper">
+        <div class="menu-wrapper" ref="menuWrapper">
             <ul>
-                <li v-for="item in goods" class="menu-item">
+                <li v-for="(item,index) in goods" class="menu-item" :class="{'current':currentIndex === index}" @click="selectMenu(index,$event)">
                     <span class="text">
                         <span v-show="item.type > 0" class="icon" :class="classMap[item.type]"></span>
                         {{item.name}}
@@ -10,9 +10,9 @@
                 </li>
             </ul>
         </div>
-        <div class="foods-wrapper">
+        <div class="foods-wrapper" ref="foodsWrapper">
             <ul>
-                <li v-for="item in goods" class="food-list">
+                <li v-for="item in goods" class="food-list" ref="foodListHook">
                     <h1 class="title">{{item.name}}</h1>
                     <ul>
                         <li v-for="food in item.foods" class="food-item">
@@ -36,16 +36,44 @@
                 </li>
             </ul>
         </div>
+        <shopcart
+            :delivery-price=seller.deliveryPrice
+            :min-price="seller.minPrice"
+        >
+        </shopcart>
     </div>
 
 </template>
 
 <script>
+    import BScroll from 'better-scroll'
+    import shopcart from 'components/shopcart/shopcart'
     const ERR_OK = 0
     export default {
+        props:{
+            seller:{
+                type:Object,
+                default:{}
+            }
+        },
         data(){
             return {
-                goods:[]
+                goods:[],
+                listHeight:[],
+                scrollY:0
+            }
+        },
+        computed:{
+            currentIndex(){//当scrollY变化时，currentIndex会时时变化
+                for(let i = 0;i < this.listHeight.length;i++){
+                    let height1 = this.listHeight[i]
+                    let height2 = this.listHeight[i + 1]
+                    if(!height2 || (this.scrollY >= height1 && this.scrollY < height2)){//落到区间之内
+                        return i
+                    }
+                }
+
+                return 0
             }
         },
         created(){
@@ -54,8 +82,47 @@
                 res = res.body
                 if(res.errno === ERR_OK){
                     this.goods = res.data
+                    this.$nextTick(() => {
+                        this._initScroll()
+                        this._calculateHeight()
+                    })
                 }
             })
+        },
+        methods:{
+            selectMenu(index,e){
+                if(!e._constructed){//解决pc端点击执行两次的问题
+                    return
+                }
+                let foodList = this.$refs.foodListHook
+                let el = foodList[index]
+                this.foodScroll.scrollToElement(el,300)
+            },
+            _initScroll(){
+                this.menuScroll = new BScroll(this.$refs.menuWrapper,{
+                    click:true//默认派发点击事件
+                })
+                this.foodScroll = new BScroll(this.$refs.foodsWrapper,{
+                    probeType:3,//监测时时滚动的位置
+                })
+                this.foodScroll.on('scroll',(pos) => {//监听滚动的事件
+                    this.scrollY = Math.abs(Math.round(pos.y))
+                })
+            },
+            _calculateHeight(){
+                let foodList = this.$refs.foodListHook
+                let height = 0
+                this.listHeight.push(height)
+                for(let i = 0;i < foodList.length;i++){
+                    let item = foodList[i]
+                    height += item.clientHeight
+                    this.listHeight.push(height)
+                }
+
+            }
+        },
+        components:{
+            shopcart
         }
     }
 </script>
@@ -80,6 +147,14 @@
                 line-height:54px
                 padding:0 12px
                 text-align:center
+                &.current
+                    position:relative
+                    z-index:10
+                    margin-top:-1px
+                    background-color:#fff
+                    font-weight:700
+                    .text
+                        border-none()
                 .icon
                     display:inline-block
                     vertical-align:middle
@@ -139,6 +214,7 @@
                         font-size:10px
                         color:rgb(147,153,159)
                     .desc
+                        line-height:10px
                         margin-bottom:8px
                     .extra
                          .count

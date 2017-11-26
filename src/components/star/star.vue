@@ -24,8 +24,8 @@
             },
             itemClasses(){
                 let result = []
-                let score = Math.floor(this.score*2) / 2
-                let hasDecimal = score % 1 !== 0
+                let score = Math.floor(this.score * 2) / 2
+                let hasDecimal = score % 1 !== 0 // 判断是否是小数
                 let integer = Math.floor(score)
                 for(let i = 0;i < integer;i++){
                     result.push(CLS_ON);

@@ -103,6 +103,7 @@
     .header
         position:relative
         color:#fff
+        overflow:hidden
         background-color:rgba(7,17,27,0.5)
         .content-wrapper
             position:relative
@@ -208,11 +209,10 @@
             width:100%
             height:100%
             overflow:auto
-            transition: all .5s
-            opacity:1
             backdrop-filter:blur(10px)//仅仅适用于ios系统，背景模糊效果
             background:rgba(7,17,27,0.8)
             &.fade-enter-active,&.fade-leave-active
+                transition: all .5s
                 opacity:1
                 background:rgba(7,17,27,0.8)
             &.fade-enter,&.fade-leave-active
