@@ -30,6 +30,9 @@
                                     <span class="now">¥{{food.price}}</span>
                                     <span v-show="food.oldPrice" class="old">¥{{food.oldPrice}}</span>
                                 </div>
+                                <div class="cartcontrol-wrapper">
+                                    <cartcontrol :food="food"></cartcontrol>
+                                </div>
                             </div>
                         </li>
                     </ul>
@@ -39,6 +42,7 @@
         <shopcart
             :delivery-price=seller.deliveryPrice
             :min-price="seller.minPrice"
+            :selectFoods="selectFoods"
         >
         </shopcart>
     </div>
@@ -48,6 +52,7 @@
 <script>
     import BScroll from 'better-scroll'
     import shopcart from 'components/shopcart/shopcart'
+    import cartcontrol from 'components/cartcontrol/cartcontrol'
     const ERR_OK = 0
     export default {
         props:{
@@ -74,6 +79,18 @@
                 }
 
                 return 0
+            },
+            selectFoods(){
+                let foods = []
+                this.goods.forEach((good,index) => {
+                    good.foods.forEach((food) => {
+                        if(food.count){
+                            foods.push(food)
+                        }
+                    })
+                })
+
+                return foods
             }
         },
         created(){
@@ -104,6 +121,7 @@
                 })
                 this.foodScroll = new BScroll(this.$refs.foodsWrapper,{
                     probeType:3,//监测时时滚动的位置
+                    click:true
                 })
                 this.foodScroll.on('scroll',(pos) => {//监听滚动的事件
                     this.scrollY = Math.abs(Math.round(pos.y))
@@ -122,7 +140,8 @@
             }
         },
         components:{
-            shopcart
+            shopcart,
+            cartcontrol
         }
     }
 </script>
@@ -230,4 +249,8 @@
                             text-decoration:line-through
                             font-size:10px
                             color:rgb(147,153,159)
+                    .cartcontrol-wrapper
+                        position:absolute
+                        right:0
+                        bottom:12px
 </style>

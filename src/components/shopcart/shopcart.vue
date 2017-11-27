@@ -4,7 +4,7 @@
             <div class="content-left">
                 <div class="logo-wrapper">
                     <div class="logo" :class="{'highlight':totalCount > 0}">
-                        <i class="icon-shopping-cart" :class="{'highlight':totalCount > 0}"></i>
+                        <i class="icon-shopping_cart" :class="{'highlight':totalCount > 0}"></i>
                     </div>
                     <div class="num" v-show="totalCount > 0">
                         {{totalCount}}
@@ -73,7 +73,6 @@ export default {
         payClass(){
             if(this.totalPrice < this.minPrice) return 'not-enough'
             else return 'enough'
-
         }
     }
 }
@@ -114,7 +113,7 @@ export default {
                         background:#2b343c
                         &.highlight
                             background:rgb(0,160,220)
-                        .icon-shopping-cart
+                        .icon-shopping_cart
                             line-height:44px
                             font-size:24px
                             color:#80858a
