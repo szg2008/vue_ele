@@ -32,6 +32,7 @@ export default {
             }else{
                 this.food.count++
             }
+            this.$emit('add',e.target)
         },
         decreaseCart(e){
             if(!e._constructed){//解决pc端点击执行两次的问题

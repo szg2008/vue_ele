@@ -31,7 +31,7 @@
                                     <span v-show="food.oldPrice" class="old">¥{{food.oldPrice}}</span>
                                 </div>
                                 <div class="cartcontrol-wrapper">
-                                    <cartcontrol :food="food"></cartcontrol>
+                                    <cartcontrol :food="food" @add="drop"></cartcontrol>
                                 </div>
                             </div>
                         </li>
@@ -43,6 +43,7 @@
             :delivery-price=seller.deliveryPrice
             :min-price="seller.minPrice"
             :selectFoods="selectFoods"
+            ref="shopcart"
         >
         </shopcart>
     </div>
@@ -136,7 +137,12 @@
                     height += item.clientHeight
                     this.listHeight.push(height)
                 }
-
+            },
+            drop(target){
+                //体验优化，异步执行动画
+                this.$nextTick(() => {
+                    this.$refs.shopcart.drop(target)
+                })
             }
         },
         components:{
