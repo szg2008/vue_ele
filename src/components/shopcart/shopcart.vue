@@ -39,24 +39,24 @@
             </div>
             <transition name="fold">
                 <div class="shopcart-list" v-show="listShow">
-                <div class="list-header">
-                    <h1 class="title">购物车</h1>
-                    <span class="empty" @click="empty">清空</span>
+                    <div class="list-header">
+                        <h1 class="title">购物车</h1>
+                        <span class="empty" @click="empty">清空</span>
+                    </div>
+                    <div class="list-content" ref="listContent">
+                        <ul>
+                            <li v-for="food in selectFoods" class="food">
+                                <span class="name">{{food.name}}</span>
+                                <div class="price">
+                                    <span class="">￥{{food.price * food.count}}</span>
+                                </div>
+                                <div class="cartcontrol-wrapper">
+                                    <cartcontrol :food="food"></cartcontrol>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
-                <div class="list-content" ref="listContent">
-                    <ul>
-                        <li v-for="food in selectFoods" class="food">
-                            <span class="name">{{food.name}}</span>
-                            <div class="price">
-                                <span class="">￥{{food.price * food.count}}</span>
-                            </div>
-                            <div class="cartcontrol-wrapper">
-                                <cartcontrol :food="food"></cartcontrol>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
             </transition>
         </div>
         <transition name="fade">
