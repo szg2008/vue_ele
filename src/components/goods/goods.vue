@@ -1,5 +1,6 @@
 <template>
-    <div class="goods">
+    <div class="">
+        <div class="goods">
         <div class="menu-wrapper" ref="menuWrapper">
             <ul>
                 <li v-for="(item,index) in goods" class="menu-item" :class="{'current':currentIndex === index}" @click="selectMenu(index,$event)">
@@ -15,7 +16,7 @@
                 <li v-for="item in goods" class="food-list" ref="foodListHook">
                     <h1 class="title">{{item.name}}</h1>
                     <ul>
-                        <li v-for="food in item.foods" class="food-item">
+                        <li v-for="food in item.foods" class="food-item" @click="selectFood(food,$event)">
                             <div class="icon">
                                 <img width="57" height="57" :src="food.icon" alt="">
                             </div>
@@ -47,13 +48,15 @@
         >
         </shopcart>
     </div>
-
+        <food :food="selectedFood" ref="food"></food>
+    </div>
 </template>
 
 <script>
     import BScroll from 'better-scroll'
     import shopcart from 'components/shopcart/shopcart'
     import cartcontrol from 'components/cartcontrol/cartcontrol'
+    import food from 'components/food/food'
     const ERR_OK = 0
     export default {
         props:{
@@ -66,7 +69,8 @@
             return {
                 goods:[],
                 listHeight:[],
-                scrollY:0
+                scrollY:0,
+                selectedFood:{}
             }
         },
         computed:{
@@ -116,6 +120,13 @@
                 let el = foodList[index]
                 this.foodScroll.scrollToElement(el,300)
             },
+            selectFood(food,e){
+                if(!e._constructed){//解决pc端点击执行两次的问题
+                    return
+                }
+                this.selectedFood = food
+                this.$refs.food.show()//父组件调用子组件的方法
+            },
             _initScroll(){
                 this.menuScroll = new BScroll(this.$refs.menuWrapper,{
                     click:true//默认派发点击事件
@@ -144,10 +155,12 @@
                     this.$refs.shopcart.drop(target)
                 })
             }
+
         },
         components:{
             shopcart,
-            cartcontrol
+            cartcontrol,
+            food
         }
     }
 </script>
