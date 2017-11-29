@@ -48,7 +48,7 @@
         >
         </shopcart>
     </div>
-        <food :food="selectedFood" ref="food"></food>
+        <food :food="selectedFood" ref="food" @add="drop"></food>
     </div>
 </template>
 
