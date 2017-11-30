@@ -35,7 +35,34 @@
                 <split></split>
                 <div class="rating">
                     <h1 class="title">商品评价</h1>
-                    <ratingselect :select-type="selectType" :only-content="onlyContent" :desc="desc" :ratings="food.ratings"></ratingselect>
+                    <ratingselect
+                        :select-type="selectType"
+                        :only-content="onlyContent"
+                        :desc="desc"
+                        :ratings="food.ratings"
+                        @selectRatingType="selectRatingType"
+                        @toggleContent="toggleContent"
+                    ></ratingselect>
+                    <div class="rating-wrapper">
+                        <ul v-show="food.ratings && food.ratings.length">
+                            <li v-for="rating in food.ratings">
+                                <div class="user">
+                                    <span class="name">{{rating.username}}</span>
+                                    <img :src="rating.avatar" alt="" class="avatar" width="12" height="12">
+                                </div>
+                                <div class="time">
+                                    {{rating.rateTime}}
+                                </div>
+                                <p class="text">
+                                    <span :class="{'icon-thumb-up':rating.rateType===0,'icon-thumb-down':rating.rateType===1}"></span>
+                                    {{rating.text}}
+                                </p>
+                            </li>
+                        </ul>
+                        <div class="no-rating" v-show="!food.ratings || !food.ratings.length">
+
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -74,7 +101,7 @@ export default {
     methods:{
         show(){
             this.showFlag = true
-            this.selectType = 2
+            this.selectType = ALL
             this.onlyContent = true
             this.$nextTick(() => {//保证组件被渲染
                 if(!this.scroll){
@@ -96,6 +123,12 @@ export default {
         },
         drop(target){
             this.$emit('add',target)//传递给父级
+        },
+        selectRatingType(type){
+            this.selectType = type
+        },
+        toggleContent(onlyContent){
+            this.onlyContent = onlyContent
         }
     },
     components:{
