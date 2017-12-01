@@ -51,7 +51,7 @@
                                     <img :src="rating.avatar" alt="" class="avatar" width="12" height="12">
                                 </div>
                                 <div class="time">
-                                    {{rating.rateTime}}
+                                    {{formatDate(rating.rateTime)}}
                                 </div>
                                 <p class="text">
                                     <span :class="{'icon-thumb-up':rating.rateType===0,'icon-thumb-down':rating.rateType===1}"></span>
@@ -60,7 +60,7 @@
                             </li>
                         </ul>
                         <div class="no-rating" v-show="!food.ratings || !food.ratings.length">
-
+                            暂无评价
                         </div>
                     </div>
                 </div>
@@ -76,6 +76,7 @@ import BScroll from 'better-scroll'
 import cartcontrol from 'components/cartcontrol/cartcontrol'
 import split from 'components/split/split'
 import ratingselect from 'components/ratingselect/ratingselect'
+import {formatDate} from 'common/js/date'
 const POSITIVE = 0
 const NEGATIVE = 1
 const ALL = 2
@@ -129,7 +130,6 @@ export default {
             this.$nextTick(() => {
                 this.scroll.refresh()
             })
-
         },
         toggleContent(onlyContent){
             this.onlyContent = onlyContent
@@ -141,6 +141,10 @@ export default {
             if(this.onlyContent && !text) return false
             if(this.selectType === ALL) return true
             else return type === this.selectType
+        },
+        formatDate(time){
+            let date = new Date(time)
+            return formatDate(date,'yyyy-MM-dd hh:mm')
         }
     },
     components:{
@@ -294,5 +298,9 @@ export default {
                             color:rgb(0,160,220)
                         .icon-thumb-down
                             color:rgb(147,153,159)
+                .no-rating
+                    padding:16px 0
+                    font-size:12px
+                    color:rgb(147,153,159)
 
 </style>
