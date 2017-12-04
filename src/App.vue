@@ -20,20 +20,26 @@
 
 <script>
 import Header from 'components/header/header'
+import {urlParse} from 'common/js/util'
 const ERR_NO = 0
 export default {
     data(){
         return {
-            seller:{}
+            seller:{
+                id:(() => {
+                    let queryParam = urlParse()
+                    return queryParam.id
+                })()
+            }
         }
     },
     //钩子函数
     created(){
-        this.$http.get('/api/seller')
+        this.$http.get('/api/seller?id=' + this.seller.id)
         .then((res)=>{
             res = res.body
             if(res.errno == ERR_NO){
-                this.seller = res.data
+                this.seller = Object.assign({},this.seller,{'id':this.seller.id,...res.data})
             }
         })
     },
