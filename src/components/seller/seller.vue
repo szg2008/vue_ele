@@ -74,6 +74,7 @@
 import BScroll from 'better-scroll'
 import star from 'components/star/star'
 import split from 'components/split/split'
+import {saveToLocal,loadFromLocal} from 'common/js/store'
 export default {
     props:{
         seller:{
@@ -83,7 +84,9 @@ export default {
     },
     data(){
         return {
-            favorite:false
+            favorite:(() => {//立即执行函数从缓存中获取
+                return loadFromLocal(this.seller.id,'favorite',false)
+            })()
         }
     },
     computed:{
@@ -134,6 +137,7 @@ export default {
         toggleFavorite(event){
             if(!event._constructed)return
             this.favorite = !this.favorite
+            saveToLocal(this.seller.id,'favorite',this.favorite)
         }
     }
 }
